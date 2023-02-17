@@ -58,7 +58,7 @@ export const getCountOfTypes = async (req, res) => {
 
 export const getProperty = async (req, res) => {
     try {
-        const property = await Property.find(req.params.id).populate('currentOwner', '-password');
+        const property = await Property.findById(req.params.id).populate('currentOwner', '-password');
 
         if (!property) {
             throw new Error('No such property with that id!');
@@ -72,10 +72,7 @@ export const getProperty = async (req, res) => {
 
 export const createProperty = async (req, res) => {
     try {
-        const newProperty = await Property.create({
-            ...req.body,
-            currentOwner: req.user.id
-        });
+        const newProperty = await Property.create({ ...req.body, currentOwner: req.user.id });
 
         return res.status(201).json(newProperty);
     } catch (err) {
@@ -87,17 +84,17 @@ export const updateProperty = async (req, res) => {
     try {
         const property = await Property.findById(req.params.id);
 
-        if (property.currentOwner !== req.user.id) {
-            throw new Error('You are not allowed to update this property!');
-        } else {
-            const updatedProperty = await Property.findByIdAndUpdate(
-                req.params.id, 
-                { $set: req.body },
-                { new: true }
-            );
-
-            return res.status(200).json(updatedProperty);
+        if (property.currentOwner.toString() !== req.user.id.toString()) {
+            throw new Error('You are not allowed to update other people properties!');
         }
+
+        const updatedProperty = await Property.findByIdAndUpdate(
+            req.params.id,
+            { $set: req.body }, 
+            { new: true }
+        );
+
+        return res.status(200).json(updatedProperty);
     } catch (err) {
         res.status(500).json(err.message);
     }
@@ -107,10 +104,10 @@ export const deleteProperty = async (req, res) => {
     try {
         const property = await Property.findById(req.params.id);
 
-        if (property.currentOwner !== req.user.id) {
+        if (property.currentOwner.toString() !== req.user.id.toString()) {
             throw new Error('You are not allowed to delete this property!');
         } else {
-            await Property.delete();
+            await Property.findByIdAndDelete(req.params.id);
             
             return res.status(200).json({ msg: 'Property successfully deleted!' });
         }

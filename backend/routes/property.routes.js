@@ -21,6 +21,6 @@ router.get('/find/types', getCountOfTypes);
 router.get('/find/:id', getProperty);
 router.post('/', verifyToken, createProperty);
 router.put('/:id', verifyToken, updateProperty);
-router.put('/:id', verifyToken, deleteProperty);
+router.delete('/:id', verifyToken, deleteProperty);
 
 export default router;
