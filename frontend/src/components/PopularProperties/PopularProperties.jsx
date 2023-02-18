@@ -18,7 +18,7 @@ const PopularProperties = () => {
         const fetchNumberProperties = async () => {
             try {
                 const data = await request('/property/find/types', 'GET');
-                console.log(data);
+                setNumProperties(data);
             } catch (err) {
                 console.error(err.message);
             }
@@ -30,26 +30,26 @@ const PopularProperties = () => {
     return (
         <div className={classes.container}>
             <div className={classes.wrapper}>
-                <div className={classes.title}>
+                <div className={classes.titles}>
                     <h5>Different types of properties</h5>
                     <h2>Best type of properties for you</h2>
                 </div>
                 <div className={classes.properties}>
-                    <Link to={`/properties?type=beach&continent=0&priceRange=1`}>
+                    <Link className={classes.property} to={`/properties?type=beach&continent=0&priceRange=1`}>
                         <img src={img1} alt="" />
                         <div className={classes.quantity}>
                             {numProperties?.beach} properties
                         </div>
                         <h5>Beach properties</h5>
                     </Link>
-                    <Link to={`/properties?type=mountain&continent=0&priceRange=1`}>
+                    <Link className={classes.property} to={`/properties?type=mountain&continent=0&priceRange=1`}>
                         <img src={img2} alt="" />
                         <div className={classes.quantity}>
                             {numProperties?.mountain} properties
                         </div>
                         <h5>Mountain properties</h5>
                     </Link>
-                    <Link to={`/properties?type=village&continent=0&priceRange=1`}>
+                    <Link className={classes.property} to={`/properties?type=village&continent=0&priceRange=1`}>
                         <img src={img3} alt="" />
                         <div className={classes.quantity}>
                             {numProperties?.village} properties
