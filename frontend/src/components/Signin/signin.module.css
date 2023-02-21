@@ -16,10 +16,14 @@
 .wrapper {
     height: 55.5vh;
     width: 27.5vw;
-    border-radius: 20px;
     display: flex;
     flex-direction: column;
     background-color: #fff;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
 }
 
 .wrapper > h2 {

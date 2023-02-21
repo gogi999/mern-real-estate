@@ -9,8 +9,6 @@ import {
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-import img from '../../assets/estate2.jpg';
-import person from '../../assets/person.jpg';
 import { request } from '../../util/fetchAPI';
 import classes from './featuredProperties.module.css';
 
@@ -38,24 +36,27 @@ const FeaturedProperties = () => {
                     <h2>Our Featured Properties</h2>
                 </div>
                 <div className={classes.featuredProperties}>
-                    {featuredProperties.map((property) => (
+                    {featuredProperties?.map((property) => (
                         <div className={classes.featuredProperty} key={property._id}>
-                            <Link 
-                                to={`/propertyDetail/${property._id}`}
-                                className={classes.imgContainer}
-                            >
-                                <img src={img} alt="" />
+                            <Link to={`/propertyDetail/${property._id}`} className={classes.imgContainer}>
+                                <img src={`http://localhost:5000/images/${property?.img}`} alt="" />
                             </Link>
                             <div className={classes.details}>
                                 <div className={classes.priceAndOwner}>
-                                    <span className={classes.price}>
-                                        $ {property?.price}
-                                    </span>
-                                    <img src={person} alt="" className={classes.owner} />
+                                    <span className={classes.price}>$ {property?.price}</span>
+                                    <img 
+                                        src={`http://localhost:5000/images/${property?.currentOwner?.profileImg}`} 
+                                        alt=""
+                                        className={classes.owner} 
+                                    />
                                 </div>
                                 <div className={classes.moreDetails}>
-                                    <span>{property?.beds} beds <FaBed className={classes.icon} /></span>
-                                    <span>{property?.sqmeters} square meters <FaSquareFull className={classes.icon} /></span>
+                                    <span>
+                                        {property?.beds} <FaBed className={classes.icon} />
+                                    </span>
+                                    <span>
+                                        {property?.sqmeters} square meters <FaSquareFull className={classes.icon} />
+                                    </span>
                                 </div>
                                 <div className={classes.desc}>
                                     {property?.desc}

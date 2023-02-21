@@ -40,7 +40,7 @@ const Signin = () => {
     return (
         <div className={classes.container}>
             <div className={classes.wrapper}>
-                <h2>Sign Up</h2>
+                <h2>Sign In</h2>
                 <form onSubmit={handleLogin}>
                     <input 
                         type="email" 
