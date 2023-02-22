@@ -12,6 +12,8 @@ import {
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import emailjs from '@emailjs/browser';
+
 import { request } from '../../util/fetchAPI';
 import classes from './propertyDetail.module.css';
 
@@ -47,7 +49,11 @@ const PropertyDetail = () => {
         e.preventDefault();
 
         try {
-            
+            emailjs.sendForm(process.env.REACT_APP_SERVICE_ID, process.env.REACT_APP_TEMPLATE_ID, formRef.current, process.env.REACT_APP_PUBLIC_KEY)
+                .then((result) => console.log(result))
+                .catch((err) => console.log(err));
+
+            handleCloseForm();
         } catch (err) {
             console.error(err);
         }
@@ -99,31 +105,38 @@ const PropertyDetail = () => {
                 <div className={classes.contactForm} onClick={handleCloseForm}>
                     <div className={classes.contactFormWrapper} onClick={(e) => e.stopPropagation()}>
                         <h2>Send Email to Owner</h2>
-                        <form ref={formRef}>
+                        <form onSubmit={handleContactOwner} ref={formRef}>
                             <input 
+                                value={user?.email} 
                                 type="text" 
                                 placeholder="My email" 
                                 name="from_email" 
                             />
                             <input 
+                                value={user?.username} 
                                 type="text" 
                                 placeholder="My username" 
-                                name="from_username" 
+                                name="from_username"  
                             />
                             <input 
+                                value={propertyDetail?.currentOwner?.email} 
                                 type="email" 
                                 placeholder="Owner email" 
-                                name="to_email" 
+                                name="to_email"  
                             />
                             <input 
+                                value={title} 
                                 type="text" 
                                 placeholder="Title" 
                                 name="from_title" 
+                                onChange={(e) => setTitle(e.target.value)} 
                             />
                             <input 
+                                value={desc} 
                                 type="text" 
                                 placeholder="Description" 
                                 name="message" 
+                                onChange={(e) => setDesc(e.target.value)} 
                             />
                             <button>Send</button>
                             <AiOutlineClose className={classes.removeIcon} onClick={handleCloseForm} />
